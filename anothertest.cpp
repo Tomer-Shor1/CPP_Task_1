@@ -1,9 +1,3 @@
-/*
-  ID: 325511541
-  MAIL: tomer5469@gmail.com
-*/
-
-
 #include <vector>
 #include <iostream>
 
@@ -53,22 +47,18 @@ namespace ariel {
     };
 }
 
-
-
-
-
-// // For testing purpose.
 int main() {
+    ariel::Graph g;
     std::vector<std::vector<int>> graph = {
         {0, 1, 0},
         {1, 0, 1},
-        {0, 1, 0}
-    };
+        {0, 1, 0}};
+    g.loadGraph(graph);
 
-    ariel::Graph g; // Create a graph with 3 vertice
-    g.loadGraph(graph); // Load the graph to the object
-    g.printGraph(); // Print the adjacency matrix
-    std::cout << g.numberOfEdges() << "";
+    std::cout << "Number of vertices: " << g.getNumOfVertices() << std::endl;
+    std::cout << "Number of edges: " << g.numberOfEdges() << std::endl;
+    std::cout << "Adjacency Matrix:" << std::endl;
+    g.printGraph();
 
     return 0;
 }
