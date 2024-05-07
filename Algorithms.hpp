@@ -9,9 +9,9 @@ namespace ariel {
     class Algorithms {
     public:
         static int isConnected(Graph graph);
-        static std::string shortestPath(Graph graph, int start, int end);
+        static std::string shortestPath(Graph graph, unsigned long start, unsigned long end);
         static std::string isBipartite(Graph graph);
-        static std::string isContainsCycle(Graph graph);
+        static bool isContainsCycle(Graph graph);
         static std::string negativeCycle(Graph graph);
         static int numberOfEdges(Graph graph);
     };

@@ -11,14 +11,14 @@ namespace ariel {
     class Graph {
     private:
         std::vector<std::vector<int>> adjMatrix;
-        int numVertices;
+        unsigned long numVertices;
 
     public:
         Graph();
         void loadGraph(std::vector<std::vector<int>>& graph);
         void printGraph();
-        int numberOfEdges();
-        int getNumOfVertices();
+        unsigned long numberOfEdges();
+        unsigned long getNumOfVertices();
         std::vector<std::vector<int>> getAdjMatrix();
     };
 }

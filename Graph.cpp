@@ -6,22 +6,17 @@
 
 #include <vector>
 #include <iostream>
+#include "Graph.hpp"
 
 namespace ariel {
-    class Graph {
-    private:
-        std::vector<std::vector<int>> adjMatrix;
-        int numVertices;
+        Graph::Graph() : numVertices(0) {}
 
-    public:
-        Graph() : numVertices(0) {}
-
-        void loadGraph(std::vector<std::vector<int>>& graph) {
-            numVertices = graph.size();
+        void Graph::loadGraph(std::vector<std::vector<int>>& graph) {
+            numVertices = (unsigned long)graph.size();
             adjMatrix = graph; // Directly assign the input graph to adjMatrix
         }
 
-        void printGraph() {
+        void Graph::printGraph() {
             for (const auto& row : adjMatrix) {
                 for (int val : row) {
                     std::cout << val << ' ';
@@ -30,8 +25,8 @@ namespace ariel {
             }
         }
 
-        int numberOfEdges() {
-            int count = 0;
+        unsigned long Graph::numberOfEdges() {
+            unsigned long count = 0;
             for (const auto& row : adjMatrix) {
                 for (int val : row) {
                     if (val == 1) {
@@ -43,32 +38,32 @@ namespace ariel {
             return count / 2;
         }
 
-        int getNumOfVertices() {
+        unsigned long Graph::getNumOfVertices() {
             return numVertices;
         }
 
-        std::vector<std::vector<int>> getAdjMatrix() {
+        std::vector<std::vector<int>> Graph::getAdjMatrix() {
             return adjMatrix;
         }
     };
-}
 
 
 
 
 
-// // For testing purpose.
-int main() {
-    std::vector<std::vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}
-    };
 
-    ariel::Graph g; // Create a graph with 3 vertice
-    g.loadGraph(graph); // Load the graph to the object
-    g.printGraph(); // Print the adjacency matrix
-    std::cout << g.numberOfEdges() << "";
+// // // For testing purpose.
+// int main() {
+//     std::vector<std::vector<int>> graph = {
+//         {0, 1, 0},
+//         {1, 0, 1},
+//         {0, 1, 0}
+//     };
 
-    return 0;
-}
+//     ariel::Graph g; // Create a graph with 3 vertice
+//     g.loadGraph(graph); // Load the graph to the object
+//     g.printGraph(); // Print the adjacency matrix
+//     std::cout << g.numberOfEdges() << "";
+
+//     return 0;
+// }
