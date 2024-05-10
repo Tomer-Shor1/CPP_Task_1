@@ -15,7 +15,8 @@ namespace ariel {
 
     public:
         Graph();
-        void loadGraph(std::vector<std::vector<int>>& graph);
+        static int isValidGraph(std::vector<std::vector<int>> &graph);
+        void loadGraph(std::vector<std::vector<int>> &graph);
         void printGraph();
         unsigned long numberOfEdges();
         unsigned long getNumOfVertices();
