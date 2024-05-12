@@ -156,7 +156,7 @@ namespace ariel {
 
                 i = static_cast<size_t>(parent[end]);
 
-                // Looping backwards from "end" until we get to the "start" vertex
+                // Looping back from "end" until we get to the "start" vertex
                 while(i != start)
                 {
                     path = std::to_string(i) + "->" + path;
@@ -240,7 +240,8 @@ namespace ariel {
         }
 
         /*
-            1
+            This function check whether a graph contains cycle.
+            Returns the cycle if exists, otherwise returns "0".
         */
         std::string Algorithms::isContainsCycle(Graph graph) {
             unsigned long numVertices = graph.getNumOfVertices();
@@ -282,6 +283,12 @@ namespace ariel {
             return "0";    // no cycle found
         }
 
+
+        /*
+            This function shearches for negative cycles in a graph.
+            The function uses BF algorithm.
+            Returs the cycle if exists, otherwise returns "The graph has no negative cycles".
+        */
         std::string Algorithms::negativeCycle(Graph graph) {
             unsigned long numVertices = graph.getNumOfVertices();
             std::vector<int> dist(numVertices, std::numeric_limits<int>::max());
@@ -320,11 +327,14 @@ namespace ariel {
         }
 
 
-
+        /*
+            This function returns the number of edges in a graph.
+        */
         int Algorithms::numberOfEdges(Graph graph) {
             unsigned long numVertices = graph.getNumOfVertices();
             unsigned long numEdges = 0;
 
+            // Add 1 to count if an edge was found.
             for (unsigned long i = 0; i < numVertices; ++i) {
                 for (unsigned long j = 0; j < numVertices; ++j) {
                     if (graph.getAdjMatrix()[i][j] != 0) {
@@ -332,8 +342,12 @@ namespace ariel {
                     }
                 }
             }
-
-            // Each edge is counted twice (once for each vertex it connects), so divide by 2
+            if (graph.isDirected())
+            {
+                return numEdges;
+            }
+            
+            // if the grpah is undirected, we counted each edge twice so the answer should be devided by 2.
             return numEdges / 2;
         }
 }

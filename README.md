@@ -40,7 +40,7 @@ Returns the adjacency matrix of the graph.
 
 ### `isDirected()`
 
-Determines if the graph is directed or undirected. Returns `1` for directed graphs and `0` for undirected graphs. Assumes a graph is directed if there exists an edge from vertex A to B that is not the reverse of an edge from B to A.
+Determines if the graph is directed or undirected. Returns `1` for directed graphs and `0` for undirected graphs. 
 
 
 
@@ -50,8 +50,6 @@ This library provides a set of algorithms for graph processing, including depth-
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
 - [Algorithms](#algorithms)
   - [Depth-First Search (DFS)](#depth-first-search-dfs)
   - [Connectivity Check](#connectivity-check)
