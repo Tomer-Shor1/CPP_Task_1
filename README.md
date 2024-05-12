@@ -109,7 +109,7 @@ This library provides a set of algorithms for graph processing, including depth-
 - **Description:** Counts the number of edges in the graph. 
 - **Parameter:** `graph`: The Graph object representing the graph to be analyzed.
 
-These detailed explanations provide a clearer understanding of the purpose and functionality of each algorithm within the Graph Algorithms Library, aiding in their effective utilization.
+
 
 
 
