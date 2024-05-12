@@ -108,6 +108,8 @@ This library provides a set of algorithms for graph processing, including depth-
 - **Parameter:** `graph`: The Graph object representing the graph to be analyzed.
 
 
+## Detailed explanations regarding algorithm's implementation can be found in 'Algorithms.cpp'.
+
 
 
 
