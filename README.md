@@ -1,39 +1,30 @@
-#include <iostream>
-#include <fstream>
-#include "Graph.hpp"
-#include "Algorithms.hpp"
+Graph Class Documentation
 
-int main() {
-    std::ofstream readmeFile("README.md");
+This document provides an overview of the Graph class, including its methods and usage. The Graph class is designed to represent and manipulate graphs, supporting operations such as loading a graph from an adjacency matrix, printing the graph, counting the number of edges, and determining the graph's directionality.
+Constructor
 
-    if (readmeFile.is_open()) {
-        readmeFile << "# Graph Class\n\n";
-        readmeFile << "The `Graph` class represents a graph data structure and provides various operations for working with graphs.\n\n";
-        readmeFile << "## Class Members\n\n";
-        readmeFile << "- `isValidGraph`: Checks if a given adjacency matrix represents a valid graph.\n";
-        readmeFile << "- `loadGraph`: Loads a graph from a given adjacency matrix.\n";
-        readmeFile << "- `printGraph`: Prints the adjacency matrix of the graph.\n";
-        readmeFile << "- `numberOfEdges`: Calculates the number of edges in the graph.\n";
-        readmeFile << "- `getNumOfVertices`: Returns the number of vertices in the graph.\n";
-        readmeFile << "- `getAdjMatrix`: Returns the adjacency matrix of the graph.\n";
-        readmeFile << "- `isDirected`: Checks if the graph is directed or undirected.\n\n";
+Graph::Graph() : numVertices(0) {}
 
-        readmeFile << "## Algorithms\n\n";
-        readmeFile << "The `Algorithms.hpp` file contains implementations of various graph algorithms. Here is a brief overview of the algorithms implemented:\n\n";
-        readmeFile << "- `isDirected`: Checks whether a graph is directed or undirected.\n";
-        readmeFile << "- `isConnected`: Checks whether a graph is connected.\n";
-        readmeFile << "- `shortestPath`: Finds the shortest path between two vertices in a graph.\n";
-        readmeFile << "- `isBipartite`: Checks whether a graph is bipartite.\n";
-        readmeFile << "- `isContainsCycle`: Checks whether a graph contains a cycle.\n";
-        readmeFile << "- `negativeCycle`: Checks whether a graph contains a negative cycle.\n";
-        readmeFile << "- `numberOfEdges`: Calculates the number of edges in a graph.\n\n";
+Initializes a new instance of the Graph class with no vertices.
+Methods
+isValidGraph(std::vector<std::vector<int>>& graph)
 
-        readmeFile.close();
-        std::cout << "README.md file created successfully." << std::endl;
-    } else {
-        std::cerr << "Unable to open README.md file." << std::endl;
-        return 1;
-    }
+Checks if the provided adjacency matrix represents a valid graph. Returns 1 if the graph is valid (square matrix) and 0 otherwise.
+loadGraph(std::vector<std::vector<int>>& graph)
 
-    return 0;
-}
+Loads a graph from an adjacency matrix. Throws an exception if the graph is invalid. Assigns the number of vertices (numVertices) and sets the adjacency matrix (adjMatrix) to the input graph.
+printGraph()
+
+Prints the adjacency matrix of the graph to the console.
+numberOfEdges()
+
+Returns the number of edges in the graph. Divides the count by 2 for undirected graphs since each edge is counted twice.
+getNumOfVertices()
+
+Returns the number of vertices in the graph.
+getAdjMatrix()
+
+Returns the adjacency matrix of the graph.
+isDirected()
+
+Determines if the graph is directed or undirected. Returns 1 for directed graphs and 0 for undirected graphs. Assumes a graph is directed if there exists an edge from vertex A to B that is not the reverse of an edge from B to A.
