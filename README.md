@@ -1,3 +1,9 @@
+# **CPP FIRST TASK**
+Written by Tomer Shor.
+12/05/2024.
+
+
+
 # **Graph Class Documentation**
 
 This document provides an overview of the **Graph** class, including its methods and usage. The **Graph** class is designed to represent and manipulate graphs, supporting operations such as loading a graph from an adjacency matrix, printing the graph, counting the number of edges, and determining the graph's directionality.
