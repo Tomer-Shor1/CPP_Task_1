@@ -21,6 +21,7 @@ namespace ariel {
         unsigned long numberOfEdges();
         unsigned long getNumOfVertices();
         std::vector<std::vector<int>> getAdjMatrix();
+        int isDirected();
     };
 }
 

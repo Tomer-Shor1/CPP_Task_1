@@ -11,6 +11,9 @@
 namespace ariel {
         Graph::Graph() : numVertices(0) {}
 
+
+
+        // check whether the graph is valid
         int Graph::isValidGraph(std::vector<std::vector<int>>& graph) {
             if (graph.size() != 0 && graph.size() == graph[0].size()) {
                 return 1; // Valid graph
@@ -18,6 +21,7 @@ namespace ariel {
                 return 0; // Invalid graph
             }
         }
+
 
 
         void Graph::loadGraph(std::vector<std::vector<int>>& graph) {
@@ -48,8 +52,14 @@ namespace ariel {
                     }
                 }
             }
+            if (isDirected())
+            {
+                return count;
+            }
+            else{
             // Since the graph is undirected, we divide the count by 2
             return count / 2;
+            }
         }
 
         unsigned long Graph::getNumOfVertices() {
@@ -59,25 +69,26 @@ namespace ariel {
         std::vector<std::vector<int>> Graph::getAdjMatrix() {
             return adjMatrix;
         }
+
+
+        // check whther a graph is directed
+        int Graph::isDirected() {
+            // Check if the graph is square
+            if (adjMatrix.size() != adjMatrix[0].size()) {
+                return -1; // Not a valid graph representation
+            }
+
+            // Check if the graph is directed or undirected
+            for (size_t i = 0; i < adjMatrix.size(); i++) {
+                for (size_t j = 0; j < adjMatrix[i].size(); j++) {
+                    if (adjMatrix[i][j] != adjMatrix[j][i]) {
+                        return 1; // Directed graph
+                    }
+                }
+            }
+
+            return 0; // Undirected graph
+        }
+
     };
 
-
-
-
-
-
-// // // For testing purpose.
-// int main() {
-//     std::vector<std::vector<int>> graph = {
-//         {0, 1, 0},
-//         {1, 0, 1},
-//         {0, 1, 0}
-//     };
-
-//     ariel::Graph g; // Create a graph with 3 vertice
-//     g.loadGraph(graph); // Load the graph to the object
-//     g.printGraph(); // Print the adjacency matrix
-//     std::cout << g.numberOfEdges() << "";
-
-//     return 0;
-// }

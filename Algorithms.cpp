@@ -1,6 +1,6 @@
 /*
-  ID: 325511541
-  MAIL: tomer5469@gmail.com
+    ID: 325511541
+    MAIL: tomer5469@gmail.com
 */
 
 #include <queue>
@@ -84,53 +84,91 @@ namespace ariel {
             @param end - end vertex 
             Returns the shortest path. If no path has been found, the function will print "-1". If the graph contains a negative cycle, the function will return failure.
         */
-        std::string Algorithms::shortestPath(Graph graph, unsigned long start, unsigned long end) {
-            unsigned long numVertices = graph.getNumOfVertices();
+        std::string Algorithms::shortestPath(Graph g, size_t start, size_t end) {
+                unsigned long numOfVertices = g.getNumOfVertices();
+                // Checking if the index of "start" and "end" are valid
+                if(start >= numOfVertices || end >= numOfVertices){
+                    throw std::invalid_argument("Invalid vertex: start/end out of range.");
+                }
+                size_t V = numOfVertices;
+                std::vector<int> dist(V, std::numeric_limits<int>::max());
+                std::vector<int> parent(V, -1);
+                dist[start] = 0;
 
-            // Initialize distances from start to all other vertices as INFINITE, Set start vertex distance to 0.
-            std::vector<int> dist(numVertices, std::numeric_limits<int>::max());
-            dist[start] = 0;
+                size_t i, j, k;
 
-            std::vector<int> parent(numVertices, -1);
+                // Bellman Ford
 
-            // Relax all edges |V| - 1 times. A simple shortest 
-            // path from start to any other vertex can have at-most |V| - 1 edges
-            for (unsigned long i = 1; i <= numVertices - 1; i++) {
-                for (unsigned long u = 0; u < numVertices; u++) {
-                    for (unsigned long v = 0; v < numVertices; v++) {
-                        if (graph.getAdjMatrix()[u][v] && dist[u] + graph.getAdjMatrix()[u][v] < dist[v]) {
-                            dist[v] = dist[u] + graph.getAdjMatrix()[u][v];
-                            parent[v] = u; // Update the parent of vertex v
+                // Relax |V| - 1 times
+                for(k = 0; k < V - 1; k++)
+                {
+                    for(i = 0; i < V; i++)
+                    {
+                        for(j = 0; j < V; j++)
+                        {
+                            // If our graph is undirected we don't want to make a loop between two vertices
+                            if(!g.isDirected() && parent[i] == j) 
+                                continue;
+
+                            if(dist[i] != std::numeric_limits<int>::max() && g.getAdjMatrix()[i][j] != 0 && dist[i] + g.getAdjMatrix()[i][j] < dist[j])
+                            {
+                                dist[j] = dist[i] + g.getAdjMatrix()[i][j];
+                                parent[j] = i;
+                            }
                         }
                     }
                 }
-            }
 
-            // Check for negative-weight cycles. The above step 
-            // guarantees shortest distances if graph doesn't contain negative weight cycle. If we get a shorter path, then there is a cycle.
-            for (unsigned long u = 0; u < numVertices; u++) {
-                for (unsigned long v = 0; v < numVertices; v++) {
-                    if (graph.getAdjMatrix()[u][v] && dist[u] + graph.getAdjMatrix()[u][v] < dist[v]) {
-                        return "Graph contains negative weight cycle";
+                // If we coundn't reach "end" we don't have a path
+                if(dist[end] == std::numeric_limits<int>::max())
+                    return "-1";
+                
+                // Check for a negative cycle in between "start" and "end"
+                for(i = 0; i < V; i++)
+                {
+                    for(j = 0; j < V; j++)
+                    {
+                        // If our graph is undirected we don't want to make a loop between two vertices
+                        if(!g.isDirected() && parent[i] == j)
+                            continue;
+
+                        // If we could do another relax there is a negative cycle
+                        if(dist[i] != std::numeric_limits<int>::max() && g.getAdjMatrix()[i][j] != 0 && dist[i] + g.getAdjMatrix()[i][j] < dist[j]) // Found a negative cycle
+                        {
+                            // Checking if the negative cycle is part of our path
+                            size_t cur = static_cast<size_t>(parent[end]);
+
+                            while(cur != start)
+                            {
+                                if(j == cur)
+                                return "-1";
+
+                                cur = static_cast<size_t>(parent[cur]); 
+                            }
+                        }
                     }
                 }
-            }
 
-            // Construct the path from start to end
-            std::string path;
-            for (unsigned long v = end; v != start; v = (unsigned long)parent[v]) {
-                path = std::to_string(v) + "->" + path;
-            }
-            path = std::to_string(start) + "->" + path;
+                // Reconstructing the path
+                std::string path;
 
-            if (dist[end] == std::numeric_limits<int>::max()) {
-                return "-1";
-            } else {
-                path.pop_back(); // Remove the extra ">" at the end.
-                path.pop_back(); // Remove the extra "-" at the end.
+                path = std::to_string(end);
+
+                i = static_cast<size_t>(parent[end]);
+
+                // Looping backwards from "end" until we get to the "start" vertex
+                while(i != start)
+                {
+                    path = std::to_string(i) + "->" + path;
+                    i = static_cast<size_t>(parent[i]);
+                }
+                
+                path = std::to_string(start) + "->" + path;
+
                 return path;
             }
-        }
+
+
 
 
         /*
@@ -248,7 +286,6 @@ namespace ariel {
             unsigned long numVertices = graph.getNumOfVertices();
             std::vector<int> dist(numVertices, std::numeric_limits<int>::max());
             std::vector<int> parent(numVertices, -1);
-            int lastUpdatedVertex = -1;
 
             // Relax all edges |V| - 1 times
             for (unsigned long i = 0; i < numVertices - 1; ++i) {
@@ -257,7 +294,6 @@ namespace ariel {
                         if (graph.getAdjMatrix()[u][v] != 0 && dist[u] + graph.getAdjMatrix()[u][v] < dist[v]) {
                             dist[v] = dist[u] + graph.getAdjMatrix()[u][v];
                             parent[v] = u;
-                            lastUpdatedVertex = v;
                         }
                     }
                 }
@@ -268,32 +304,21 @@ namespace ariel {
                 for (unsigned long v = 0; v < numVertices; ++v) {
                     if (graph.getAdjMatrix()[u][v] != 0 && dist[u] + graph.getAdjMatrix()[u][v] < dist[v]) {
                         // Negative cycle found, construct and return the cycle
-                        std::string cycle = std::to_string(v);
-                        unsigned long curr = (unsigned long)parent[v];
-                        while (curr != v) {
+                        std::string cycle;
+                        unsigned long curr = v;
+                        do {
                             cycle = std::to_string(curr) + "->" + cycle;
                             curr = (unsigned long)parent[curr];
-                        }
+                        } while (curr != v);
                         cycle = std::to_string(v) + "->" + cycle + std::to_string(v);
-                        return cycle;
+                        return "Graph contains negative cycles: " + cycle;
                     }
                 }
             }
 
-            if (lastUpdatedVertex != -1) {
-                // Construct and return the path to the last updated vertex
-                std::string path = std::to_string(lastUpdatedVertex);
-                unsigned long curr = (unsigned long)parent[(unsigned long)lastUpdatedVertex];
-                while (curr != -1 && curr != lastUpdatedVertex) {
-                    path = std::to_string(curr) + "->" + path;
-                    curr = (unsigned long)parent[curr];
-                }
-                path = std::to_string(lastUpdatedVertex) + "->" + path;
-                return path;
-            }
-
             return "The graph has no negative cycles";
         }
+
 
 
         int Algorithms::numberOfEdges(Graph graph) {
