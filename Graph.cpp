@@ -90,5 +90,268 @@ namespace ariel {
             return 0; // Undirected graph
         }
 
+        // operators overloading
+        Graph& Graph::operator=(const Graph& other) {
+            if (this == &other) {
+                return *this;
+            }
+
+            numVertices = other.numVertices;
+            adjMatrix = other.adjMatrix;
+
+            return *this;
+        }
+
+
+        // addition operator
+        Graph& Graph::operator+(const Graph& other) {
+            if (numVertices != other.numVertices) {
+                throw std::invalid_argument("Invalid operation: The two graphs have different number of vertices.");
+            }
+
+            Graph newGraph;
+            newGraph.numVertices = numVertices;
+            newGraph.adjMatrix = adjMatrix;
+            for (size_t i = 0; i < numVertices; i++) {
+                for (size_t j = 0; j < numVertices; j++) {
+                    newGraph.adjMatrix[i][j] = adjMatrix[i][j] + other.adjMatrix[i][j];
+                }
+            }
+            return newGraph;
+        }
+
+        // addition assignment operator
+        Graph& Graph::operator+=(const Graph& other) {
+            if (numVertices != other.numVertices) {
+                throw std::invalid_argument("Invalid operation: The two graphs have different number of vertices.");
+            }
+
+            for (size_t i = 0; i < numVertices; i++) {
+                for (size_t j = 0; j < numVertices; j++) {
+                    adjMatrix[i][j] += other.adjMatrix[i][j];
+                }
+            }
+            return *this;
+        }
+
+        // unary plus operator
+        Graph Graph::operator+() const {
+            Graph newGraph;
+            newGraph.numVertices = numVertices;
+            newGraph.adjMatrix = adjMatrix;
+            return newGraph;
+        }
+
+        // subtraction operator
+        Graph& Graph::operator-(const Graph& other) {
+            if (numVertices != other.numVertices) {
+                throw std::invalid_argument("Invalid operation: The two graphs have different number of vertices.");
+            }
+
+            Graph newGraph;
+            newGraph.numVertices = numVertices;
+            newGraph.adjMatrix = adjMatrix;
+            for (size_t i = 0; i < numVertices; i++) {
+                for (size_t j = 0; j < numVertices; j++) {
+                    newGraph.adjMatrix[i][j] = adjMatrix[i][j] - other.adjMatrix[i][j];
+                }
+            }
+            return newGraph;
+        }
+
+        // subtraction assignment operator
+        Graph& Graph::operator-=(const Graph& other) {
+            if (numVertices != other.numVertices) {
+                throw std::invalid_argument("Invalid operation: The two graphs have different number of vertices.");
+            }
+
+            for (size_t i = 0; i < numVertices; i++) {
+                for (size_t j = 0; j < numVertices; j++) {
+                    adjMatrix[i][j] -= other.adjMatrix[i][j];
+                }
+            }
+            return *this;
+        }
+
+        // unary minus operator
+        Graph Graph::operator-() const {
+            Graph newGraph;
+            newGraph.numVertices = numVertices;
+            newGraph.adjMatrix = adjMatrix;
+            for (size_t i = 0; i < numVertices; i++) {
+                for (size_t j = 0; j < numVertices; j++) {
+                    newGraph.adjMatrix[i][j] = -adjMatrix[i][j];
+                }
+            }
+            return newGraph;
+        }
+
+        // equality operator
+        bool Graph::operator==(const Graph& other) {
+            if (numVertices != other.numVertices) {
+                return false;
+            }
+
+            for (size_t i = 0; i < numVertices; i++) {
+                for (size_t j = 0; j < numVertices; j++) {
+                    if (adjMatrix[i][j] != other.adjMatrix[i][j]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        bool Graph::operator!=(const Graph& other) {
+            return !(*this == other);
+        }   
+
+        // Helper function to check if this graph is properly contained in another graph
+        bool isProperSubset(Graph& g1, Graph& g2) {
+            bool hasAdditionalEdge = false;
+
+            for (size_t i = 0; i < g1.getNumOfVertices(); ++i) {
+                for (size_t j = 0; j < g1.getNumOfVertices(); ++j) {
+                    if (g1.getAdjMatrix()[i][j] != 0 && g2.getAdjMatrix()[i][j] == 0) {
+                        return false;
+                    }
+                    if (g1.getAdjMatrix()[i][j] == 0 && g2.getAdjMatrix()[i][j] != 0) {
+                        hasAdditionalEdge = true;
+                    }
+                }
+            }
+            return hasAdditionalEdge;
+        }
+
+        // greater than operator
+        bool Graph::operator>(Graph& other) {
+            if (isProperSubset(*this, other)) {
+                return true;
+            } 
+            else if (isProperSubset(other, *this)) {
+                return false;
+            }
+            // compare the number of edges
+            if (numberOfEdges() > other.numberOfEdges()) {
+                return true;
+            }
+            else if (numberOfEdges() == other.numberOfEdges()) {
+                return adjMatrix.size() > other.adjMatrix.size();
+            }
+            else {
+                return false;
+            }
+        }
+
+        // greater than or equal to operator
+        bool Graph::operator>=(Graph& other) {
+            // compare the number of edges
+            if (numberOfEdges() > other.numberOfEdges()) {
+                return true;
+            }
+            else if (numberOfEdges() == other.numberOfEdges()) {
+                return adjMatrix.size() >= other.adjMatrix.size();
+            }
+            else {
+                return false;
+            }
+        }
+
+        // less than operator
+        bool Graph::operator<( Graph& other) {
+            if (isProperSubset(other, *this)) {
+                return true;
+            } 
+            else if (isProperSubset(*this, other)) {
+                return false;
+            }
+            // compare the number of edges
+            if (numberOfEdges() < other.numberOfEdges()) {
+                return true;
+            }
+            else if (numberOfEdges() == other.numberOfEdges()) {
+                return adjMatrix.size() < other.adjMatrix.size();
+            }
+            else {
+                return false;
+            }
+        }
+
+        // less than or equal to operator
+        bool Graph::operator<=( Graph& other) {
+            // compare the number of edges
+            if (numberOfEdges() < other.numberOfEdges()) {
+                return true;
+            }
+            else if (numberOfEdges() == other.numberOfEdges()) {
+                return adjMatrix.size() <= other.adjMatrix.size();
+            }
+            else {
+                return false;
+            }
+        }
+
+
+        // ++ operator
+        Graph& Graph::operator++() {
+            for (size_t i = 0; i < numVertices; i++) {
+            for (size_t j = 0; j < numVertices; j++) {
+                adjMatrix[i][j]++;
+            }
+            }
+            return *this;
+        }
+
+        // -- operator
+        Graph& Graph::operator--() {
+            for (size_t i = 0; i < numVertices; i++) {
+            for (size_t j = 0; j < numVertices; j++) {
+                adjMatrix[i][j]--;
+            }
+            }
+            return *this;
+        }
+
+        // scalar multiplication
+        Graph& Graph::operator*(int scalar) {
+            for (size_t i = 0; i < numVertices; i++) {
+            for (size_t j = 0; j < numVertices; j++) {
+                adjMatrix[i][j] *= scalar;
+            }
+            }
+            return *this;
+        }
+
+        // multiplication operator
+        Graph Graph::operator*(const Graph& other) {
+            if (numVertices != other.numVertices) {
+                throw std::invalid_argument("Invalid operation: The two graphs have different number of vertices.");
+            }
+
+            Graph newGraph;
+            newGraph.numVertices = numVertices;
+            newGraph.adjMatrix.resize(numVertices, std::vector<int>(numVertices, 0));
+
+            for (size_t i = 0; i < numVertices; i++) {
+                for (size_t j = 0; j < numVertices; j++) {
+                    for (size_t k = 0; k < numVertices; k++) {
+                        newGraph.adjMatrix[i][j] += adjMatrix[i][k] * other.adjMatrix[k][j];
+                    }
+                }
+            }
+
+            return newGraph;
+        }
+
+        // output operator
+        std::ostream& operator<<(std::ostream& os,Graph& graph) {
+            for ( auto& row : graph.getAdjMatrix()) {
+                for (int val : row) {
+                    os << val << ' ';
+                }
+                os << '\n';
+            }
+            return os;
+        }
     };
 
