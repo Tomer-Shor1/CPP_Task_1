@@ -290,3 +290,289 @@ TEST_CASE("Test isBipartite")
     g.loadGraph(graph4);
     CHECK(ariel::Algorithms::isBipartite(g) == "0");
 }
+
+TEST_CASE("+ operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g2.loadGraph(graph2);
+
+    ariel::Graph g3 = g1 + g2;
+    CHECK(g3.getAdjMatrix() == vector<vector<int>>{{0, 2, 1}, {2, 0, 2}, {1, 2, 0}});
+}
+
+TEST_CASE("+= operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g2.loadGraph(graph2);
+
+    g1 += g2;
+    CHECK(g1.getAdjMatrix() == vector<vector<int>>{{0, 2, 1}, {2, 0, 2}, {1, 2, 0}});
+}
+
+TEST_CASE("Unary + operator")
+{
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g.loadGraph(graph);
+
+    ariel::Graph g2 = +g;
+    CHECK(g2.getAdjMatrix() == graph);
+}
+
+TEST_CASE("- operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g2.loadGraph(graph2);
+
+    ariel::Graph g3 = g1 - g2;
+    CHECK(g3.getAdjMatrix() == vector<vector<int>>{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}});
+}
+
+TEST_CASE("-= operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g2.loadGraph(graph2);
+
+    g1 -= g2;
+    CHECK(g1.getAdjMatrix() == vector<vector<int>>{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}});
+}
+
+TEST_CASE("Unary - operator")
+{
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g.loadGraph(graph);
+
+    ariel::Graph g2 = -g;
+    CHECK(g2.getAdjMatrix() == vector<vector<int>>{{0, -1, -1}, {-1, 0, -1}, {-1, -1, 0}});
+}
+
+TEST_CASE("== operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g2.loadGraph(graph2);
+
+    CHECK(g1 == g2);
+}
+
+TEST_CASE("!= operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g2.loadGraph(graph2);
+
+    CHECK(g1 != g2);
+}
+
+
+TEST_CASE("> operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g2.loadGraph(graph2);
+
+    CHECK(g2 > g1);
+}
+
+
+TEST_CASE(">= operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g2.loadGraph(graph2);
+
+    CHECK(g2 >= g1);
+}
+
+TEST_CASE("< operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g2.loadGraph(graph2);
+
+    CHECK(g1 < g2);
+}
+
+
+TEST_CASE("<= operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g2.loadGraph(graph2);
+
+    CHECK(g1 <= g2);
+}
+
+
+TEST_CASE("++ operator")
+{
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g.loadGraph(graph);
+
+    ariel::Graph g2 = ++g;
+    CHECK(g2.getAdjMatrix() == vector<vector<int>>{{0, 2, 2}, {2, 0, 2}, {2, 2, 0}});
+}
+
+TEST_CASE("-- operator")
+{
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 2, 2},
+        {2, 0, 2},
+        {2, 2, 0}};
+    g.loadGraph(graph);
+
+    ariel::Graph g2 = --g;
+    CHECK(g2.getAdjMatrix() == vector<vector<int>>{{0, 1, 1}, {1, 0, 1}, {1, 1, 0}});
+}
+
+
+TEST_CASE("* operator")
+{
+    ariel::Graph g1;
+    vector<vector<int>> graph1 = {
+        {0, 1, 0},
+        {1, 0, 1},
+        {0, 1, 0}};
+    g1.loadGraph(graph1);
+
+    ariel::Graph g2;
+    vector<vector<int>> graph2 = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g2.loadGraph(graph2);
+
+    ariel::Graph g3 = g1 * g2;
+    CHECK(g3.getAdjMatrix() == vector<vector<int>>{{0, 1, 0}, {1, 0, 1}, {0, 1, 0}});
+}
+
+
+TEST_CASE("* operator (scalar)")
+{
+    ariel::Graph g;
+    vector<vector<int>> graph = {
+        {0, 1, 1},
+        {1, 0, 1},
+        {1, 1, 0}};
+    g.loadGraph(graph);
+
+    ariel::Graph g2 = g * 2;
+    CHECK(g2.getAdjMatrix() == vector<vector<int>>{{0, 2, 2}, {2, 0, 2}, {2, 2, 0}});
+}
+
