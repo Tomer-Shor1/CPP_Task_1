@@ -113,3 +113,87 @@ This library provides a set of algorithms for graph processing, including depth-
 
 
 
+Operator Overloads
+==================
+
+Assignment Operator (operator=)
+--------------------------------
+- **Description:** Assigns the contents of one graph to another.
+- **Details:** Checks for self-assignment to prevent unnecessary work.
+
+Addition Operator (operator+)
+-----------------------------
+- **Description:** Adds the adjacency matrices of two graphs.
+- **Details:** Throws an exception if the graphs have a different number of vertices.
+
+Addition Assignment Operator (operator+=)
+-----------------------------------------
+- **Description:** Adds the adjacency matrix of another graph to this graph.
+- **Details:** Throws an exception if the graphs have a different number of vertices.
+
+Unary Plus Operator (operator+)
+-------------------------------
+- **Description:** Returns a copy of the graph.
+
+Subtraction Operator (operator-)
+-------------------------------
+- **Description:** Subtracts the adjacency matrix of another graph from this graph.
+- **Details:** Throws an exception if the graphs have a different number of vertices.
+
+Subtraction Assignment Operator (operator-=)
+-------------------------------------------
+- **Description:** Subtracts the adjacency matrix of another graph from this graph.
+- **Details:** Throws an exception if the graphs have a different number of vertices.
+
+Unary Minus Operator (operator-)
+-------------------------------
+- **Description:** Negates all the edge weights in the graph.
+
+Equality Operator (operator==)
+------------------------------
+- **Description:** Checks if two graphs are equal by comparing their adjacency matrices.
+
+Inequality Operator (operator!=)
+--------------------------------
+- **Description:** Checks if two graphs are not equal by comparing their adjacency matrices.
+
+Greater Than Operator (operator>)
+--------------------------------
+- **Description:** Checks if the current graph is a proper subset of another graph or compares the number of edges.
+- **Helper Function:** Uses isProperSubset to determine if one graph is a proper subset of another.
+
+Greater Than or Equal To Operator (operator>=)
+----------------------------------------------
+- **Description:** Compares the number of edges between two graphs to determine if the current graph is greater than or equal to another graph.
+
+Less Than Operator (operator<)
+-----------------------------
+- **Description:** Checks if another graph is a proper subset of the current graph or compares the number of edges.
+- **Helper Function:** Uses isProperSubset to determine if one graph is a proper subset of another.
+
+Less Than or Equal To Operator (operator<=)
+-------------------------------------------
+- **Description:** Compares the number of edges between two graphs to determine if the current graph is less than or equal to another graph.
+
+Increment Operator (operator++)
+-------------------------------
+- **Description:** Increments all the edge weights in the graph by one.
+
+Decrement Operator (operator--)
+-------------------------------
+- **Description:** Decrements all the edge weights in the graph by one.
+
+Scalar Multiplication Operator (operator*)
+-----------------------------------------
+- **Description:** Multiplies all the edge weights in the graph by a scalar value.
+
+Multiplication Operator (operator*)
+----------------------------------
+- **Description:** Multiplies the adjacency matrices of two graphs using matrix multiplication.
+- **Details:** Throws an exception if the graphs have a different number of vertices.
+
+Output Operator (operator<<)
+----------------------------
+- **Description:** Outputs the adjacency matrix of the graph to an output stream.
+
+
