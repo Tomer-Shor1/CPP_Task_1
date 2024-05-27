@@ -22,10 +22,10 @@ namespace ariel {
         unsigned long getNumOfVertices();
         std::vector<std::vector<int>> getAdjMatrix();
         int isDirected();
-        Graph& operator+(const Graph &other);
+        Graph operator+(const Graph &other);
         Graph &operator+=(const Graph &other);
         Graph operator+() const;
-        Graph &operator-(const Graph &other);
+        Graph operator-(const Graph& other) const;
         Graph &operator-=(const Graph &other);
         Graph operator-() const;
         bool operator==(const Graph &other);

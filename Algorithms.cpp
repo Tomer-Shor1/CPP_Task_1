@@ -35,6 +35,7 @@ namespace ariel {
             }
             return 0;
         }
+
         /*
             Depth-first search (DFS) algorithm.
             @param v - The start vertex.
@@ -106,7 +107,7 @@ namespace ariel {
                     {
                         for(j = 0; j < V; j++)
                         {
-                            // If our graph is undirected we don't want to make a loop between two vertices
+                            // If our graph is not directed we don't want to make a loop between two vertices
                             if(!g.isDirected() && parent[i] == j) 
                                 continue;
 
@@ -135,15 +136,15 @@ namespace ariel {
                         // If we could do another relax there is a negative cycle
                         if(dist[i] != std::numeric_limits<int>::max() && g.getAdjMatrix()[i][j] != 0 && dist[i] + g.getAdjMatrix()[i][j] < dist[j]) // Found a negative cycle
                         {
-                            // Checking if the negative cycle is part of our path
+                            // Checking if the negative cycle is part of our path - j is where we found the negative cycle
                             size_t cur = static_cast<size_t>(parent[end]);
 
                             while(cur != start)
                             {
-                                if(j == cur)
+                                if(j == cur)   // if the certice is in the negative cycle, return false.
                                 return "-1";
 
-                                cur = static_cast<size_t>(parent[cur]); 
+                                cur = static_cast<size_t>(parent[cur]);    // itetate through vertice's parents.
                             }
                         }
                     }
@@ -172,7 +173,7 @@ namespace ariel {
 
 
         /*
-            This fucntion chekcs whether a graph is bipartite.
+            This fucntion chekcs whether a graph is bipartite - using 2 coloring method.
             @param graph - the graph to make the check on.
             returns "Bipartite or Not Bipartite."
         */
@@ -206,13 +207,13 @@ namespace ariel {
                 // Visit all adjacent vertices of u
                 for (unsigned long v = 0; v < numVertices; ++v) {
                     // If there is an edge from u to v and v is not colored
-                    if (graph.getAdjMatrix()[u][v] && color[v] == -1) {
+                    if (graph.getAdjMatrix()[u][v] != 0 && color[v] == -1) {
                         // Color v with a different color than u
                         color[v] = 1 - color[u];
                         q.push(v);
                     }
                     // If there is an edge from u to v and both u and v have the same color, the graph is not bipartite
-                    else if (graph.getAdjMatrix()[u][v] && color[v] == color[u]) {
+                    else if (graph.getAdjMatrix()[u][v] != 0 && color[v] == color[u]) {
                         return "0";
                     }
                 }
@@ -242,6 +243,7 @@ namespace ariel {
         /*
             This function check whether a graph contains cycle.
             Returns the cycle if exists, otherwise returns "0".
+            Returns only the first cycle found.
         */
         std::string Algorithms::isContainsCycle(Graph graph) {
             unsigned long numVertices = graph.getNumOfVertices();
@@ -250,19 +252,19 @@ namespace ariel {
             std::unordered_set<int> cycleVertices;
             std::stack<int> stack;
 
-            for (unsigned long i = 0; i < numVertices; ++i) {
-                if (!visited[i]) {
-                    stack.push(i);
+            for (unsigned long i = 0; i < numVertices; i++) {   // for all vertices
+                if (!visited[i]) {   // if havent visited 
+                    stack.push(i);   // push to the stack
                     while (!stack.empty()) {
                         unsigned long u = (unsigned long)stack.top();
                         stack.pop();
                         visited[u] = true;
                         for (unsigned long v = 0; v < numVertices; ++v) {
-                            if (graph.getAdjMatrix()[u][v]) {
+                            if (graph.getAdjMatrix()[u][v] != 0) {   // go trough adjacents of u
                                 if (!visited[v]) {
                                     stack.push(v);
                                     parent[v] = u;
-                                } else if (parent[u] != v && cycleVertices.find(v) == cycleVertices.end()) {
+                                } else if (parent[u] != v && cycleVertices.find(v) == cycleVertices.end()) {  // if reached a vertex which has been visited, cycle is found.
                                     // Found a cycle
                                     unsigned long curr = u;
                                     std::string cycle;
